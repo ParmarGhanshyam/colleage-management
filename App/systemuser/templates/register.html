@@ -44,6 +44,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
                             <form class="user" action="{% url 'teacher_data:register' %}" >
+                                {% csrf_token %}
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address" name="email" >
@@ -69,8 +70,10 @@
                                                placeholder="Address" name="address" >
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Register Account
+                                <a class="btn btn-primary btn-user btn-block">
+                                    <input type="submit" class="btn btn-primary btn-user btn-block" >
+
+<!--                                    <input type="submit">-->
                                 </a>
                                 <hr>
                             </form>

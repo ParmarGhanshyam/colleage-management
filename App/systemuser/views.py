@@ -28,15 +28,11 @@ def register(request):
 
 
 def login(request):
-    # if request.method == 'POST':
-        # username = request.POST.get('email')
-        # password = request.POST.get('password')
-        # user_type = request.POST.get('dropdown')
-        # user = auth.authenticate(username=username, password=password)
-        # if user:
-        #
-        #
-
-
+    if request.method == 'POST':
+        username = request.POST.get('email')
+        password = request.POST.get('password')
+        user_type = request.POST.get('dropdown')
+        user = auth.authenticate(username=username, password=password)
+        print(user)
 
     return render(request, 'login.html')
