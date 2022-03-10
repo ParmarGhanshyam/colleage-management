@@ -89,9 +89,9 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                    <a class="nav-link" href="{% url 'teacher_data:document_upload' %}">
+                    <a class="nav-link" href = "{% url 'subjectdocument:listdocument' %}">
                         <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Subjects  </span></a>
+                        <span>Subjects</span></a>
             </li>
 
             <!-- Divider -->
@@ -134,7 +134,7 @@
                         <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                              aria-labelledby="searchDropdown">
                             <form class="form-inline mr-auto w-100 navbar-search"
-                                  action="{% url 'user:student_data' %}">
+                                  action="{% url 'teacher_data:student_dashboard' %}">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="text" class="form-control bg-light border-0 small"
@@ -181,9 +181,9 @@
                                 Change Password
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'user:logout' %}" data-toggle="modal"
+                            <a class="dropdown-item"  data-toggle="modal"
                                data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" href = "{% url 'teacher_data:logout' %}" ></i>
                                 Logout
                             </a>
                         </div>
@@ -222,7 +222,7 @@
                 <div class="modal-body">Selectform "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{% url 'user:logout' %}">Logout</a>
+                    <a class="btn btn-primary" href="{% url 'teacher_data:logout' %}"  >Logout</a>
                 </div>
             </div>
         </div>

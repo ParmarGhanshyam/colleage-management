@@ -14,7 +14,7 @@ def register(request):
         password = request.POST['password']
         repassword = request.POST['password1']
         mobile = request.POST['mobile']
-        address = request.POST['address']
+        # address = request.POST['address']
 
         if password == repassword:
             data = User.objects.create_user(username=username, password=password)
@@ -33,6 +33,41 @@ def login(request):
         password = request.POST.get('password')
         user_type = request.POST.get('dropdown')
         user = auth.authenticate(username=username, password=password)
-        print(user)
-
+        if user:
+            systemuser = SystermUser.objects.get(user=user)
+            if systemuser.user_type == user_type:
+                if systemuser.user_type == "professor":
+                    auth.login(request, user)
+                    messages.success(request, "Sucessfully TeacherLogin Done")
+                    return redirect('teacher_data:teacher_dashoard')
+                else:
+                    if systemuser.status == "pending":
+                        messages.warning(request, 'Your account Action is Pending.')
+                        return redirect('teacher_data:login')
+                    elif systemuser.status == "active":
+                        auth.login(request, user)
+                        messages.success(request, "Sucessfully Login")
+                        context = SystermUser.objects.get(user = user)
+                        return render(request, 'student_dashboard.html', {'systemuser' : context})
+                    else:
+                        messages.error(request, "You R Not Authorize for Login ")
+                        return redirect('teacher_data:login')
+            else:
+                messages.warning(request, "You R Selected Wrong User type")
+                return redirect('teacher_data:login')
+        else:
+            messages.error(request, "invalid credentials")
+            return redirect('teacher_data:login')
     return render(request, 'login.html')
+
+def student_dashboard(request):
+    return render(request, 'student_dashboard.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('teacher_data:login')
+
+
+def teacher_dashoard(request):
+    return render(request, 'teacher_dashboard.html')
