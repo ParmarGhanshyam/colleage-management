@@ -20,16 +20,16 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                              <th>Subject</th>
-                                            <th>Semester</th>
+                                            <th>Subject Name</th>
+                                            <th> List Of Document </th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                     {% for subject in subjects %}
                                         <tr>
-                                            <td>{{subject.subject.subject_name}} </td>
-                                            <td>{{subject.subject.sem_name.sem_name}}</td>
+                                            <td> {{subject.subject.subject_name}}</a></td>
+                                            <td>{{subject.filefield}}</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
