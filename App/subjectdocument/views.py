@@ -31,5 +31,6 @@ def add_data(request,pk):
 def add_document(request):
     systemuserdata = SystermUser.objects.get(user_id = request.user)
 
+
     return render(request, 'add_document.html')
 

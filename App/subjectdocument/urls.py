@@ -11,6 +11,6 @@ app_name = 'subjectdocument'
 urlpatterns = [
     path('list_document/', views.list_document, name="listdocument"),
     path('add_data/<int:pk>', views.add_data, name="adddata"),
-    path('add_document',views.add_document,name = 'add_document'),
+    path('add_document/',views.add_document,name = 'add_document'),
 
 ]
