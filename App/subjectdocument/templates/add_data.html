@@ -31,7 +31,7 @@
                                         <tr>
                                             <td> {{subject.subject.subject_name}}</a></td>
                                             <td>{{subject.filefield}} </td>
-                                            <td> <a href="" > Add Data</a> </td>
+                                            <td> <a href="{% url 'subjectdocument:adddocument' subject.subject.id %}" > Add Data</a> </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
