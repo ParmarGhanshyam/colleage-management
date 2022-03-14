@@ -12,5 +12,6 @@ app_name = 'semsubject'
 urlpatterns = [
     path('showstudentinfo/', views.showstudentinfo, name="showstudentinfo"),
     path('showstudentsubject/', views.showstudentsubject, name="showstudentsubject"),
+    path('download_document/<int:pk>', views.download_document, name="downloaddocument"),
 
 ]

@@ -26,7 +26,7 @@
                                             {% for data in datalist %}
 
                                             <ul>
-                                                <li> <a href="{% url 'semsubject:downloaddocument' data.id %}" >{{data.subject_name}}</a> </li>
+                                                <li><a href="{{ data.filefield.url }}" download>{{ data.filename }}</a> </li>
                                             </ul>
 
                                             {% endfor %}
