@@ -10,6 +10,7 @@ from django.urls import path
 app_name = 'semsubject'
 
 urlpatterns = [
-    path('showstudentinfo', views.showstudentinfo, name="showstudentinfo"),
+    path('showstudentinfo/', views.showstudentinfo, name="showstudentinfo"),
+    path('showstudentsubject/', views.showstudentsubject, name="showstudentsubject"),
 
 ]
