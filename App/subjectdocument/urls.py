@@ -10,7 +10,7 @@ app_name = 'subjectdocument'
 
 urlpatterns = [
     path('list_document/', views.list_document, name="listdocument"),
-    path('add_data/<int:pk>', views.add_data, name="adddata"),
-    path('add_document/<int:pk>',views.add_document,name = 'adddocument'),
+    path('add_data/<int:pk>/', views.add_data, name="adddata"),
+    path('add_document/<int:pk>/',views.add_document,name = 'adddocument'),
 
 ]
