@@ -3,6 +3,9 @@ from django.contrib.auth.models import User, auth
 from .models import SystermUser
 from django.contrib import auth
 from django.contrib import messages
+import hashlib
+
+from django.contrib.auth.hashers import BasePasswordHasher
 from django.contrib.auth import logout
 
 
@@ -67,6 +70,25 @@ def student_dashboard(request):
 def logout_view(request):
     logout(request)
     return redirect('teacher_data:login')
+
+
+def changepassword(request):
+    systemuserdata = SystermUser.objects.get(user_id=request.user)
+    print(systemuserdata)
+    print(systemuserdata.user)
+    data = User.objects.get(username = systemuserdata.user)
+    print(data.password)
+    hash = hashlib.sha512(data.password.encode()).hexdigest()[:120]
+    print(hash)
+    if systemuserdata.user:
+        auth.login(request,systemuserdata.user)
+        if request.method == "POST":
+            changepassword = request.POST['changepassword']
+            data.set_password(changepassword)
+            data.save()
+            return redirect('teacher_data:login')
+
+    return render(request,'change_password.html')
 
 
 def teacher_dashoard(request):
