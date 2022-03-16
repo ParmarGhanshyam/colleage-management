@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from .models import SubjectDocument
 from ..subject.models import Subject
 from ..systemuser.models import SystermUser
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
 
-
+@login_required(login_url='teacher_data:login')
 def list_document(request):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     print(systemuserdata.user.pk)
@@ -20,7 +22,7 @@ def list_document(request):
 
     return render(request, 'list_document.html', {'subjects': datalist})
 
-
+@login_required(login_url='teacher_data:login')
 def add_data(request, pk):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     print(systemuserdata.user.pk)
@@ -32,7 +34,7 @@ def add_data(request, pk):
         print(data)
     return render(request, 'add_data.html', {'subjects': datalist})
 
-
+@login_required(login_url='teacher_data:login')
 def add_document(request, pk):
     if request.method == "POST":
         systemuserdata = SystermUser.objects.get(user_id=request.user)

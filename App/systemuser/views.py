@@ -4,6 +4,7 @@ from .models import SystermUser
 from django.contrib import auth
 from django.contrib import messages
 import hashlib
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.hashers import BasePasswordHasher
 from django.contrib.auth import logout
@@ -63,15 +64,17 @@ def login(request):
             return redirect('teacher_data:login')
     return render(request, 'login.html')
 
+@login_required(login_url='teacher_data:login')
 def student_dashboard(request):
     return render(request, 'student_dashboard.html')
 
-
+@login_required(login_url='teacher_data:login')
 def logout_view(request):
     logout(request)
     return redirect('teacher_data:login')
 
 
+@login_required(login_url='teacher_data:login')
 def changepassword(request):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     print(systemuserdata)
@@ -90,6 +93,6 @@ def changepassword(request):
 
     return render(request,'change_password.html')
 
-
+@login_required(login_url='teacher_data:login')
 def teacher_dashoard(request):
     return render(request, 'teacher_dashboard.html')
