@@ -35,6 +35,8 @@ Django_Apps = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 App_list = [
@@ -45,13 +47,17 @@ App_list = [
     'App.subjectdocument',
     'App.systemuser',
 
+
 ]
 
 # Application definition
 
 INSTALLED_APPS = Django_Apps + App_list
 
+REST_FRAMEWORK = {
 
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -3,34 +3,49 @@ from django.contrib.auth.models import User, auth
 from .models import SystermUser
 from django.contrib import auth
 from django.contrib import messages
+from rest_framework import status
+from rest_framework.renderers import JSONRenderer
 import hashlib
 from django.contrib.auth.decorators import login_required
-
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import BasePasswordHasher
 from django.contrib.auth import logout
-
+from rest_framework.response import Response
+from .serializer import SystermUserSerializer
 
 # Create your views here.
+@api_view(['GET', 'POST'])
 def register(request):
     if request.method == 'POST':
         # with transaction.atomic():
-        username = request.POST['email']
-        password = request.POST['password']
-        repassword = request.POST['password1']
-        mobile = request.POST['mobile']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        repassword = request.POST.get('password1')
+        mobile = request.POST.get('mobile')
         # address = request.POST['address']
 
         if password == repassword:
-            data = User.objects.create_user(username=username, password=password)
-            system_user = SystermUser.objects.create(user_id=data.id, mobile=mobile)
-            return redirect('teacher_data:login')
-        else:
-            messages.error(request, "Password does not match")
-            return redirect('teacher_data:register')
+            user_instance = User.objects.create_user(username=username, password=password)
+            # system_user = SystermUser.objects.create(user_id=data.id, mobile=mobile)
+            request_post = request.data.copy()
+            request_post['user'] = user_instance.id
+            system_user_serializer = SystermUserSerializer(data =request_post)
+            if system_user_serializer.is_valid():
+                system_user_instance = system_user_serializer.save()
+                return Response(SystermUserSerializer(instance=system_user_instance).data, status=status.HTTP_201_CREATED)
+            else:
+                print(system_user_serializer.errors)
+                return  Response(system_user_serializer.errors)
 
-    return render(request, 'register.html')
+    #         return redirect('teacher_data:login')
+    #     else:
+    #         messages.error(request, "Password does not match")
+    #         return redirect('teacher_data:register')
+    #
+    # return render(request, 'register.html')
 
-
+@api_view(['GET', 'POST'])
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('email')
@@ -64,17 +79,24 @@ def login(request):
             return redirect('teacher_data:login')
     return render(request, 'login.html')
 
-@login_required(login_url='teacher_data:login')
+
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def student_dashboard(request):
     return render(request, 'student_dashboard.html')
 
-@login_required(login_url='teacher_data:login')
+
+
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def logout_view(request):
     logout(request)
     return redirect('teacher_data:login')
 
 
-@login_required(login_url='teacher_data:login')
+
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def changepassword(request):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     print(systemuserdata)
@@ -93,6 +115,8 @@ def changepassword(request):
 
     return render(request,'change_password.html')
 
-@login_required(login_url='teacher_data:login')
+
+
+@api_view(['GET', 'POST'])
 def teacher_dashoard(request):
     return render(request, 'teacher_dashboard.html')

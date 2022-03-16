@@ -3,12 +3,13 @@ from .models import SubjectDocument
 from ..subject.models import Subject
 from ..systemuser.models import SystermUser
 from django.contrib.auth.decorators import login_required
-
-
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .serializer import SubjectDocumentSerializer
 
 # Create your views here.
-
-@login_required(login_url='teacher_data:login')
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def list_document(request):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     print(systemuserdata.user.pk)
@@ -22,7 +23,8 @@ def list_document(request):
 
     return render(request, 'list_document.html', {'subjects': datalist})
 
-@login_required(login_url='teacher_data:login')
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def add_data(request, pk):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     print(systemuserdata.user.pk)
@@ -34,7 +36,8 @@ def add_data(request, pk):
         print(data)
     return render(request, 'add_data.html', {'subjects': datalist})
 
-@login_required(login_url='teacher_data:login')
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def add_document(request, pk):
     if request.method == "POST":
         systemuserdata = SystermUser.objects.get(user_id=request.user)

@@ -4,10 +4,16 @@ from ..subject.models import Subject
 from ..systemuser.models import SystermUser
 from ..subjectdocument.models import SubjectDocument
 from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .serializer import SemstudentSerializer
 
 
 # Create your views here.
-@login_required(login_url='teacher_data:login')
+
+
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def showstudentinfo(request):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     semdata = Semstudent.objects.filter(user_id = systemuserdata.id)
@@ -17,7 +23,9 @@ def showstudentinfo(request):
         datalist.append(data)
     return render(request,'show_student_info.html',{'datalist':datalist,'systemuser':systemuserdata})
 
-@login_required(login_url='teacher_data:login')
+
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def showstudentsubject(request):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     semdata = Semstudent.objects.get(user_id = systemuserdata.id)
@@ -29,7 +37,9 @@ def showstudentsubject(request):
         datalist.append(data)
     return render(request, 'list_of_subject.html',{'datalist':datalist,'systemuser':systemuserdata})
 
-@login_required(login_url='teacher_data:login')
+
+@api_view(['GET', 'POST'])
+@permission_classes(IsAuthenticated,)
 def download_document(request,pk):
     systemuserdata = SystermUser.objects.get(user_id=request.user)
     subjectdata = SubjectDocument.objects.filter(subject_id = pk)
